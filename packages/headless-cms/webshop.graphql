@@ -1,0 +1,43 @@
+query ListItems{
+    listWebshopItems {
+        data {
+            id
+            title
+        }
+    }
+    getBasket {
+        data {
+            basket
+                id
+                entryId
+                userName
+                userId
+            }
+            items {
+                id
+                entryId
+                title
+            }
+        }
+    }
+}
+
+mutation AddItem {
+    addItemToBasket(itemId:"62fe2aba22a6ed0009ad1ad7#0001") {
+        data {
+            itemId
+            basketId
+            userId
+        }
+    }
+}
+
+mutation RemoveIem {
+    removeItemFromBasket(itemId:"62fe2aba22a6ed0009ad1ad7#0001") {
+        data {
+            itemId
+            basketId
+            userId
+        }
+    }
+}
