@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig",
+  "include": ["src"],
+  "compilerOptions": {
+    "preserveSymlinks": false,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "baseUrl": "."
+  }
+}
