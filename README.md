@@ -58,7 +58,7 @@ We will go through the creation of the required field plugins.
 
 We need to create a field in the api part of the code and few plugins in the app part of the code.
 
-##### 2. Add field to the `WebshopCateogory` model.
+##### 2. Add field to the `WebshopCategory` model.
 
 ##### 3. Show the unique and required validators
 
