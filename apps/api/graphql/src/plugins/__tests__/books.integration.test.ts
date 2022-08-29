@@ -50,7 +50,7 @@ describe("Books Integration Test", () => {
     //             listBooks: [
     //                 {
     //                     description: "This is the first book.",
-    //                     title: "First book 123"
+    //                     title: "First book"
     //                 },
     //                 { description: "This is the second book.", title: "Second book" }
     //             ]

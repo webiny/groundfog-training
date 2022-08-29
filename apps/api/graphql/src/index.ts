@@ -95,3 +95,22 @@ export const handler = createHandler({
     ],
     http: { debug }
 });
+
+// export const query = async ({ query = "", variables = {}, headers = {} } = {}) => {
+//     const event: any = {
+//         httpMethod: "POST",
+//         path: "/graphql",
+//         headers: {
+//             "content-type": "application/json",
+//             ...headers
+//         },
+//         body: JSON.stringify({
+//             query,
+//             variables
+//         })
+//     };
+//
+//     const context: any = {};
+//
+//     return handler(event, context).then(response => JSON.parse(response.body));
+// };
