@@ -61,7 +61,7 @@ import editorUpperCaseSpaceFieldValidator from "@webiny/app-headless-cms/admin/p
 import welcomeScreenWidget from "@webiny/app-headless-cms/admin/plugins/welcomeScreenWidget";
 
 import richTextEditor from "./headlessCMS/richTextEditor";
-import { createGroundfogHeadlessCmsPlugins } from "@groundfog/headless-cms/admin";
+// import { createGroundfogHeadlessCmsPlugins } from "@groundfog/headless-cms/admin";
 
 export default [
     headlessCmsPlugins(),
@@ -121,9 +121,9 @@ export default [
     editorUpperCaseSpaceFieldValidator,
     welcomeScreenWidget,
     objectField,
-    objectFieldRenderer,
+    objectFieldRenderer
     /**
      * We need to add plugins to the app.
      */
-    createGroundfogHeadlessCmsPlugins()
+    // createGroundfogHeadlessCmsPlugins()
 ];
