@@ -1,6 +1,4 @@
-import { handler } from "~/index";
-
-jest.setTimeout(10000);
+import { handler, /*query*/ } from "~/index";
 
 describe("Books Integration Test", () => {
     it("should be able to retrieve list of books", async () => {
@@ -29,7 +27,7 @@ describe("Books Integration Test", () => {
         );
 
         expect(response.body).toEqual(
-            '{"data":{"listBooks":[{"description":"This is the first book.","title":"First book 123"},{"description":"This is the second book.","title":"Second book"}]}}'
+            '{"data":{"listBooks":[{"description":"This is the first book.","title":"First book"},{"description":"This is the second book.","title":"Second book"}]}}'
         );
     });
 
