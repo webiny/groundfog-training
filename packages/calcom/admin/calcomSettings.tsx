@@ -50,9 +50,7 @@ const CalComSettings: React.FC<calComImagesSettingsProps> = props => {
                 <Cell />
                 <Grid className={classes.simpleGrid}>
                     <Cell span={12}>
-                        {/*  @ts-ignore */}
                         <ButtonContainer>
-                            {/*  @ts-ignore */}
                             <SimpleButton onClick={submit}>Save</SimpleButton>
                         </ButtonContainer>
                     </Cell>
