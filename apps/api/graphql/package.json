@@ -6,7 +6,6 @@
     "watch": "yarn webiny run watch"
   },
   "dependencies": {
-    "@groundfog/headless-cms": "^1.0.0",
     "@webiny/api-admin-users-cognito": "5.31.0",
     "@webiny/api-admin-users-cognito-so-ddb": "5.31.0",
     "@webiny/api-apw": "5.31.0",
