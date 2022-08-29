@@ -1,0 +1,50 @@
+{
+  "name": "@groundfog/auth0",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webiny/webiny-js.git"
+  },
+  "description": "Identity provider plugin for Auth0",
+  "author": "Webiny Ltd.",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@auth0/auth0-react": "^1.10.1",
+    "@emotion/styled": "^10.0.27",
+    "@webiny/api-security": "^5.31.0",
+    "@webiny/api-tenancy": "^5.31.0",
+    "@webiny/api-tenant-manager": "^5.31.0",
+    "@webiny/app": "5.31.0",
+    "@webiny/app-admin": "5.31.0",
+    "@webiny/app-security": "5.31.0",
+    "@webiny/app-serverless-cms": "5.31.0",
+    "@webiny/app-tenancy": "5.31.0",
+    "@webiny/app-tenant-manager": "5.31.0",
+    "@webiny/error": "^5.31.0",
+    "@webiny/form": "5.31.0",
+    "@webiny/handler": "^5.31.0",
+    "@webiny/handler-graphql": "^5.31.0",
+    "@webiny/plugins": "5.31.0",
+    "@webiny/ui": "5.31.0",
+    "@webiny/validation": "5.31.0",
+    "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
+    "emotion": "^10.0.27",
+    "graphql": "^15.7.2",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.1",
+    "lodash": "^4.4.2",
+    "node-fetch": "^2.6.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/jwk-to-pem": "^2.0.1",
+    "@types/node-fetch": "2.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

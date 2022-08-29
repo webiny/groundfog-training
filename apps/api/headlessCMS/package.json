@@ -6,7 +6,7 @@
     "watch": "yarn webiny run watch"
   },
   "dependencies": {
-    "@groundfog/headless-cms": "^1.0.0",
+    "@groundfog/auth0": "^1.0.0",
     "@webiny/api-apw": "5.31.0",
     "@webiny/api-apw-scheduler-so-ddb": "5.31.0",
     "@webiny/api-headless-cms": "5.31.0",

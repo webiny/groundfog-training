@@ -6,13 +6,8 @@ import { createStorageOperations as securityStorageOperations } from "@webiny/ap
 import { authenticateUsingHttpHeader } from "@webiny/api-security/plugins/authenticateUsingHttpHeader";
 import apiKeyAuthentication from "@webiny/api-security/plugins/apiKeyAuthentication";
 import apiKeyAuthorization from "@webiny/api-security/plugins/apiKeyAuthorization";
-import groupAuthorization from "@webiny/api-security/plugins/groupAuthorization";
-import parentTenantGroupAuthorization from "@webiny/api-security/plugins/parentTenantGroupAuthorization";
-import cognitoAuthentication from "@webiny/api-security-cognito";
 import anonymousAuthorization from "@webiny/api-security/plugins/anonymousAuthorization";
-import createAdminUsersApp from "@webiny/api-admin-users-cognito";
-import { syncWithCognito } from "@webiny/api-admin-users-cognito/syncWithCognito";
-import { createStorageOperations as createAdminUsersStorageOperations } from "@webiny/api-admin-users-cognito-so-ddb";
+import { createAuth0 } from "@groundfog/auth0/api";
 
 export default ({ documentClient }: { documentClient: DocumentClient }) => [
     /**
@@ -28,30 +23,27 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
     createTenancyGraphQL(),
 
     /**
-     * Create Security app in the `context`.
+     * Create Security app context.
      */
     createSecurityContext({
+        /**
+         * For Auth0, this must be set to `false`, as we don't have links in the database.
+         */
+        verifyIdentityToTenantLink: false,
         storageOperations: securityStorageOperations({ documentClient })
     }),
 
     /**
      * Expose security GraphQL schema.
      */
-    createSecurityGraphQL(),
-
-    /**
-     * Create Admin Users app.
-     */
-    createAdminUsersApp({
-        storageOperations: createAdminUsersStorageOperations({ documentClient })
-    }),
-
-    /**
-     * Sync Admin Users with Cognito User Pool.
-     */
-    syncWithCognito({
-        region: String(process.env.COGNITO_REGION),
-        userPoolId: String(process.env.COGNITO_USER_POOL_ID)
+    createSecurityGraphQL({
+        /**
+         * For Auth0, we must provide custom logic to determine the "default" tenant for current identity.
+         * Since we're not linking identities to tenants via DB records, we can just return the current tenant.
+         */
+        async getDefaultTenant(context) {
+            return context.tenancy.getCurrentTenant();
+        }
     }),
 
     /**
@@ -59,6 +51,38 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
      * This will fetch the value of the header, and execute the authentication process.
      */
     authenticateUsingHttpHeader(),
+
+    /**
+     * Configure Auth0 authentication and authorization.
+     */
+    createAuth0({
+        /**
+         * `issuer` is required for token verification.
+         */
+        issuer: process.env.AUTH0_ISSUER,
+        /**
+         * Construct the identity object and map token claims to arbitrary identity properties.
+         */
+        getIdentity({ token }) {
+            return {
+                id: token["sub"],
+                type: "admin",
+                displayName: token["name"],
+                // Assign any custom values you might need.
+                // Auth0 requires namespaced custom claim names in form of URI, thus the `https://webiny.com/` namespace.
+                group: token["https://webiny.com/group"]
+            };
+        },
+        /**
+         * Get the slug of a security group to fetch permissions from.
+         */
+        getGroupSlug(context) {
+            const identity = context.security.getIdentity();
+
+            // Return group slug you want to map this identity to.
+            return identity["group"];
+        }
+    }),
 
     /**
      * API Key authenticator.
@@ -69,30 +93,10 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
     apiKeyAuthentication({ identityType: "api-key" }),
 
     /**
-     * Cognito authentication plugin.
-     * This plugin will verify the JWT token against the provided User Pool.
-     */
-    cognitoAuthentication({
-        region: String(process.env.COGNITO_REGION),
-        userPoolId: String(process.env.COGNITO_USER_POOL_ID),
-        identityType: "admin"
-    }),
-
-    /**
      * Authorization plugin to fetch permissions for a verified API key.
      * The "identityType" must match the authentication plugin used to load the identity.
      */
     apiKeyAuthorization({ identityType: "api-key" }),
-
-    /**
-     * Authorization plugin to fetch permissions from a security group associated with the identity.
-     */
-    groupAuthorization({ identityType: "admin" }),
-
-    /**
-     * Authorization plugin to fetch permissions from the parent tenant.
-     */
-    parentTenantGroupAuthorization({ identityType: "admin" }),
 
     /**
      * Authorization plugin to load permissions for anonymous requests.

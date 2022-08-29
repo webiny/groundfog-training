@@ -46,5 +46,8 @@ declare namespace NodeJS {
         ELASTIC_SEARCH_ENDPOINT?: string;
         EVENT_BUS?: string;
         SLACK_URL: string;
+        AUTH0_ISSUER: string;
+        REACT_APP_AUTH0_ISSUER: string;
+        REACT_APP_AUTH0_CLIENT_ID: string;
     }
 }

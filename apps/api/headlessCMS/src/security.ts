@@ -6,10 +6,8 @@ import { createStorageOperations as securityStorageOperations } from "@webiny/ap
 import { authenticateUsingHttpHeader } from "@webiny/api-security/plugins/authenticateUsingHttpHeader";
 import apiKeyAuthentication from "@webiny/api-security/plugins/apiKeyAuthentication";
 import apiKeyAuthorization from "@webiny/api-security/plugins/apiKeyAuthorization";
-import groupAuthorization from "@webiny/api-security/plugins/groupAuthorization";
-import parentTenantGroupAuthorization from "@webiny/api-security/plugins/parentTenantGroupAuthorization";
-import cognitoAuthentication from "@webiny/api-security-cognito";
 import anonymousAuthorization from "@webiny/api-security/plugins/anonymousAuthorization";
+import { createAuth0 } from "@groundfog/auth0/api";
 
 export default ({ documentClient }: { documentClient: DocumentClient }) => [
     /**
@@ -20,9 +18,13 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
     }),
 
     /**
-     * Create Security app in the `context`.
+     * Create Security app context.
      */
     createSecurityContext({
+        /**
+         * For Auth0, this must be set to `false`, as we don't have links in the database.
+         */
+        verifyIdentityToTenantLink: false,
         storageOperations: securityStorageOperations({ documentClient })
     }),
 
@@ -33,6 +35,38 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
     authenticateUsingHttpHeader(),
 
     /**
+     * Configure Auth0 authentication and authorization.
+     */
+    createAuth0({
+        /**
+         * `issuer` is required for token verification.
+         */
+        issuer: process.env.AUTH0_ISSUER,
+        /**
+         * Construct the identity object and map token claims to arbitrary identity properties.
+         */
+        getIdentity({ token }) {
+            return {
+                id: token["sub"],
+                type: "admin",
+                displayName: token["name"],
+                // Assign any custom values you might need.
+                // Auth0 requires namespaced custom claim names in form of URI, thus the `https://webiny.com/` namespace.
+                group: token["https://webiny.com/group"]
+            };
+        },
+        /**
+         * Get the slug of a security group to fetch permissions from.
+         */
+        getGroupSlug(context) {
+            const identity = context.security.getIdentity();
+
+            // Return group slug you want to map this identity to.
+            return identity["group"];
+        }
+    }),
+
+    /**
      * API Key authenticator.
      * API Keys are a standalone entity, and are not connected to users in any way.
      * They identify a project, a 3rd party client, not a particular user.
@@ -41,30 +75,10 @@ export default ({ documentClient }: { documentClient: DocumentClient }) => [
     apiKeyAuthentication({ identityType: "api-key" }),
 
     /**
-     * Cognito authentication plugin.
-     * This plugin will verify the JWT token against the provided User Pool.
-     */
-    cognitoAuthentication({
-        region: String(process.env.COGNITO_REGION),
-        userPoolId: String(process.env.COGNITO_USER_POOL_ID),
-        identityType: "admin"
-    }),
-
-    /**
      * Authorization plugin to fetch permissions for a verified API key.
      * The "identityType" must match the authentication plugin used to load the identity.
      */
     apiKeyAuthorization({ identityType: "api-key" }),
-
-    /**
-     * Authorization plugin to fetch permissions from a security group associated with the identity.
-     */
-    groupAuthorization({ identityType: "admin" }),
-
-    /**
-     * Authorization plugin to fetch permissions from the parent tenant.
-     */
-    parentTenantGroupAuthorization({ identityType: "admin" }),
 
     /**
      * Authorization plugin to load permissions for anonymous requests.

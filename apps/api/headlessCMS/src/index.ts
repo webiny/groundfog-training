@@ -13,7 +13,6 @@ import { createStorageOperations as createApwSaStorageOperations } from "@webiny
 
 // Imports plugins created via scaffolding utilities.
 import scaffoldsPlugins from "./plugins/scaffolds";
-import { groundfogHeadlessCmsPlugins } from "@groundfog/headless-cms/api";
 import { createApiGatewayHandler as createHandler } from "@webiny/handler-aws";
 import { createApwHeadlessCmsContext, createApwGraphQL } from "@webiny/api-apw";
 
@@ -46,8 +45,7 @@ export const handler = createHandler({
         createApwHeadlessCmsContext({
             storageOperations: createApwSaStorageOperations({ documentClient })
         }),
-        scaffoldsPlugins(),
-        groundfogHeadlessCmsPlugins()
+        scaffoldsPlugins()
     ],
     http: { debug }
 });
