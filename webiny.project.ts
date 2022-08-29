@@ -9,6 +9,7 @@ import cliScaffoldAdminModule from "@webiny/cli-plugin-scaffold-admin-app-module
 import cliScaffoldCiCd from "@webiny/cli-plugin-scaffold-ci";
 
 export default {
+    id: "webiny-test/webiny-test-project",
     template: "@webiny/cwp-template-aws@5.30.0",
     name: "groundfog",
     cli: {
