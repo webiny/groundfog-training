@@ -35,6 +35,8 @@ import { createStorageOperations as createApwSaStorageOperations } from "@webiny
 import scaffoldsPlugins from "./plugins/scaffolds";
 import { createApiGatewayHandler as createHandler } from "@webiny/handler-aws";
 
+import books from "./plugins/books";
+
 const debug = process.env.DEBUG === "true";
 
 const documentClient = new DocumentClient({
@@ -88,7 +90,8 @@ export const handler = createHandler({
         createApwPageBuilderContext({
             storageOperations: createApwSaStorageOperations({ documentClient })
         }),
-        scaffoldsPlugins()
+        scaffoldsPlugins(),
+        books
     ],
     http: { debug }
 });
