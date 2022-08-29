@@ -1,0 +1,45 @@
+// AddMenu / AddRoute React components.
+
+<AddMenu name="customModule" label={"Custom Module"}>
+    <AddMenu name="customModuleSection" label={"Custom Module Section"}>
+        <AddMenu
+            name="customModule.section"
+            label={"Custom Module Item"}
+            path="/custom-module"
+        />
+    </AddMenu>
+</AddMenu>
+<AddRoute
+    exact
+    path={"/custom-module"}
+    render={() => (
+        <AdminLayout>
+            <Helmet title={"Custom Module"}/>
+            <SplitView>
+                <LeftPanel span={4}>
+                    <div style={{textAlign: "center", padding: 100}}>
+                        Used for list of records.
+                    </div>
+                </LeftPanel>
+                <RightPanel span={8}>
+                    <div style={{textAlign: "center", padding: 100}}>
+                        Used for showing a specific record.
+                    </div>
+                </RightPanel>
+            </SplitView>
+        </AdminLayout>
+    )}
+/>
+
+// AddLogo React component.
+// https://www.webiny.com/docs/admin-area/extending/change-logo
+<AddLogo
+    logo={
+        <img
+            alt={"Groundfog"}
+            src={
+                "https://www.groundfog.cloud/img/groundfog_name_only_dark.76c242a8.png"
+            }
+        />
+    }
+/>
