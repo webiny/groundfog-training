@@ -35,8 +35,11 @@ import visibility from "@webiny/app-page-builder/render/plugins/elementSettings/
 // Responsive mode
 import responsiveMode from "@webiny/app-page-builder/render/plugins/responsiveMode";
 
+import calcomElement from "@groundfog/calcom/render";
+
 export default [
     // Elements
+    calcomElement(),
     document(),
     grid(),
     block(),

@@ -57,6 +57,8 @@ import visibility from "@webiny/app-page-builder/render/plugins/elementSettings/
  */
 import responsiveMode from "@webiny/app-page-builder/render/plugins/responsiveMode";
 
+import calcomElement from "@groundfog/calcom/render";
+
 export default [
     linkPreload(),
     apolloCacheObjectId,
@@ -98,5 +100,6 @@ export default [
     margin,
     textSetting,
     visibility,
-    responsiveMode()
+    responsiveMode(),
+    calcomElement()
 ];

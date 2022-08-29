@@ -63,7 +63,10 @@ import pageSettingsPlugins from "@webiny/app-page-builder/editor/plugins/pageSet
 // default presets for grid
 import { gridPresets } from "@webiny/app-page-builder/editor/plugins/gridPresets";
 
+import calcomElement from "@groundfog/calcom/admin";
+
 export default [
+    calcomElement(),
     // Elements
     document(),
     grid(),
