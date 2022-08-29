@@ -12,7 +12,6 @@ module.exports = ({ path }, presets = []) => {
     }
 
     return merge.recursive({}, tsPreset, ...presets, {
-        name: name,
         displayName: name,
         modulePaths: [`${path}/src`],
         testMatch: [`${path}/**/__tests__/**/*${type}.test.[jt]s?(x)`],
