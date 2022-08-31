@@ -6,6 +6,9 @@ import { Cognito } from "@webiny/app-admin-users-cognito";
 // import Helmet from "react-helmet";
 // import { LeftPanel, RightPanel, SplitView } from "@webiny/app-admin/components/SplitView";
 
+// import { AddTenantFormField } from "@webiny/app-tenant-manager";
+// import gql from "graphql-tag";
+
 export const App: React.FC = () => {
     return (
         <Admin>

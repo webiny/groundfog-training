@@ -1,0 +1,54 @@
+// Add tenant form field.
+const tenantFormFieldsSelection = gql`
+    {
+        settings {
+            contactFirstName
+            contactLastName
+            contactEmail
+        }
+    }
+`;
+
+const ContactFields = () => {
+    return (
+        <>
+            <Grid>
+                <Cell span={6}>
+                    <Bind
+                        name={"settings.contactFirstName"}
+                        defaultValue={""}
+                        validators={validation.create("required,maxLength:500")}
+                    >
+                        <Input label={"Contact first name"} />
+                    </Bind>
+                </Cell>
+                <Cell span={6}>
+                    <Bind
+                        name={"settings.contactLastName"}
+                        defaultValue={""}
+                        validators={validation.create("required,maxLength:500")}
+                    >
+                        <Input label={"Contact last name"} />
+                    </Bind>
+                </Cell>
+            </Grid>
+            <Grid>
+                <Cell span={12}>
+                    <Bind
+                        name={"settings.contactEmail"}
+                        defaultValue={""}
+                        validators={validation.create("required,email")}
+                    >
+                        <Input label={"Contact E-mail"} />
+                    </Bind>
+                </Cell>
+            </Grid>
+        </>
+    );
+};
+
+<AddTenantFormField
+    querySelection={tenantFormFieldsSelection}
+    element={<ContactFields/>}
+/>
+
